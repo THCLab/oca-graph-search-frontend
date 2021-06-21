@@ -55,6 +55,10 @@ module.exports = configure(function (ctx) {
     build: {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
 
+      env: {
+        API: process.env.API
+      },
+
       // transpile: false,
 
       // Add dependencies for transpiling with Babel (Array of string/regex)
