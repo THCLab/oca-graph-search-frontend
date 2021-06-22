@@ -17,7 +17,21 @@
             size="sm"
           />
         </div>
-        <criterium :ref="setCriteriumRef" />
+        <q-select
+          dense
+          outlined
+          v-model="criterium.type"
+          :options="['meta', 'attribute']"
+          style="width: 150px; padding-right: 15px;"
+        />
+        <criterium-meta
+          v-show="criterium.type === 'meta'"
+          :ref="setCriteriumMetaRef"
+        />
+        <criterium-attribute
+          v-show="criterium.type === 'attribute'"
+          :ref="setCriteriumAttributeRef"
+        />
       </div>
     </div>
 
@@ -45,9 +59,11 @@
 
 <script lang="ts">
 import { Vue, Options } from 'vue-property-decorator'
-import { Criterium } from '../entities/Criterium'
+import { CriteriumMeta } from '../entities/CriteriumMeta'
+import { CriteriumAttribute } from '../entities/CriteriumAttribute'
 import { Entity } from '../entities/Entity'
-import CriteriumComponent from './Criteria/Criterium.vue'
+import CriteriumMetaComponent from './Criteria/CriteriumMeta.vue'
+import CriteriumAttributeComponent from './Criteria/CriteriumAttribute.vue'
 
 type CriteriumElement = {
   type: string,
@@ -56,17 +72,25 @@ type CriteriumElement = {
 
 @Options({
   components: {
-    Criterium: CriteriumComponent
+    CriteriumMeta: CriteriumMetaComponent,
+    CriteriumAttribute: CriteriumAttributeComponent
   }
 })
 export default class Criteria extends Vue {
   defaultCrtiterium: CriteriumElement = { type: 'meta', deleted: false }
-  criteriumRefs: Criterium[] = []
   criteriumList: CriteriumElement[] = []
+  criteriumMetaRefs: CriteriumMeta[] = []
+  criteriumAttributeRefs: CriteriumAttribute[] = []
 
-  setCriteriumRef (ref: Criterium) {
+  setCriteriumMetaRef (ref: CriteriumMeta) {
     if (ref) {
-      this.criteriumRefs.push(ref)
+      this.criteriumMetaRefs.push(ref)
+    }
+  }
+
+  setCriteriumAttributeRef (ref: CriteriumAttribute) {
+    if (ref) {
+      this.criteriumAttributeRefs.push(ref)
     }
   }
 
@@ -75,7 +99,8 @@ export default class Criteria extends Vue {
   }
 
   beforeUpdate () {
-    this.criteriumRefs = []
+    this.criteriumMetaRefs = []
+    this.criteriumAttributeRefs = []
   }
 
   addCriterium () {
@@ -92,11 +117,20 @@ export default class Criteria extends Vue {
   async search () {
     const results: Entity[] = ((await this.$api.get('/q', {
       params: {
-        params: this.criteriumRefs.map(criterium => {
+        meta: this.criteriumMetaRefs.filter(criterium => {
+          return criterium.name && criterium.value
+        }).map(criterium => {
           return {
             name: criterium.name,
             value: criterium.value,
             op: criterium.operator
+          }
+        }),
+        attributes: this.criteriumAttributeRefs.filter(criterium => {
+          return criterium.name
+        }).map(criterium => {
+          return {
+            name: criterium.name
           }
         })
       }

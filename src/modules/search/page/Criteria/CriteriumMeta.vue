@@ -41,7 +41,7 @@ type Available = {
   values: Value[]
 }
 
-export default class Criterium extends Vue {
+export default class CriteriumMeta extends Vue {
   name = ''
   operator = ''
   value: string | number = ''
