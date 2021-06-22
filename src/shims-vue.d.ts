@@ -4,3 +4,9 @@ declare module '*.vue' {
   const component: ComponentOptions
   export default component
 }
+
+declare const config: {
+  env: {
+    VUE_APP_API: string
+  }
+}
