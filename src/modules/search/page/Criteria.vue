@@ -25,11 +25,11 @@
           style="width: 150px; padding-right: 15px;"
         />
         <criterium-meta
-          v-show="criterium.type === 'meta'"
+          v-if="criterium.type === 'meta'"
           :ref="setCriteriumMetaRef"
         />
         <criterium-attribute
-          v-show="criterium.type === 'attribute'"
+          v-if="criterium.type === 'attribute'"
           :ref="setCriteriumAttributeRef"
         />
       </div>
