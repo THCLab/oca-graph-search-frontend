@@ -14,7 +14,7 @@
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
 
-export default class CriteriumAttribute extends Vue {
+export default class CriteriumSchema extends Vue {
   name = ''
 }
 </script>

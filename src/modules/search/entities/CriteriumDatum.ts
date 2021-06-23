@@ -1,4 +1,4 @@
-export class CriteriumMeta {
+export class CriteriumDatum {
   name: string
   value: number | string
   operator: string

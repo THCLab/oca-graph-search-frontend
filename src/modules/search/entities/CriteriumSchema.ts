@@ -1,4 +1,4 @@
-export class CriteriumAttribute {
+export class CriteriumSchema {
   name: string
 
   constructor (name: string) {
