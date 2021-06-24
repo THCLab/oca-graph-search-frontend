@@ -117,7 +117,7 @@ export default class Criteria extends Vue {
   async search () {
     const results: Entity[] = ((await this.$api.get('/q', {
       params: {
-        meta: this.criteriumDatumRefs.filter(criterium => {
+        data: this.criteriumDatumRefs.filter(criterium => {
           return criterium.name && criterium.value
         }).map(criterium => {
           return {
@@ -126,7 +126,7 @@ export default class Criteria extends Vue {
             op: criterium.operator
           }
         }),
-        attributes: this.criteriumSchemaRefs.filter(criterium => {
+        schemas: this.criteriumSchemaRefs.filter(criterium => {
           return criterium.name
         }).map(criterium => {
           return {

@@ -19,11 +19,11 @@
         >
           id: <b>{{ entity.id }}</b> <br>
           <span
-            v-for="(meta, i) in entity.meta"
+            v-for="(datum, i) in entity.data"
             :key="i"
           >
-            {{ meta.name }}: <b>{{ meta.value }}</b>
-            <span v-if="i !== entity.meta.length - 1">
+            {{ datum.name }}: <b>{{ datum.value }}</b>
+            <span v-if="i !== entity.data.length - 1">
               &bull;
             </span>
           </span>

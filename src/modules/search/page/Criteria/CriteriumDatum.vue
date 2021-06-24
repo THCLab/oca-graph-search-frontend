@@ -54,7 +54,7 @@ export default class CriteriumDatum extends Vue {
 
   async created () {
     this.available.names = ((
-      await this.$api.get('/meta')
+      await this.$api.get('/data/names')
     ).data as { results: string[] }).results.sort()
   }
 
@@ -63,7 +63,7 @@ export default class CriteriumDatum extends Vue {
     this.operator = ''
     this.value = ''
     const result = (
-      await this.$api.get(`/meta/${name}`)
+      await this.$api.get(`/datum/${name}`)
     ).data as Available
     this.available.operators = result.operators
     this.operator = this.available.operators[0]

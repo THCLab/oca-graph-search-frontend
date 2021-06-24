@@ -1,9 +1,10 @@
 <template>
   <div class="q-gutter-md row">
-    <q-input
+    <q-select
       dense
       outlined
       v-model="name"
+      :options="available.names"
       style="width: 250px"
     />
     <div class="mock" />
@@ -14,8 +15,22 @@
 <script lang="ts">
 import { Vue } from 'vue-property-decorator'
 
+type Available = {
+  names: string[]
+}
+
 export default class CriteriumSchema extends Vue {
   name = ''
+
+  available: Available = {
+    names: []
+  }
+
+  async created () {
+    this.available.names = ((
+      await this.$api.get('/oca/names')
+    ).data as { results: string[] }).results.sort()
+  }
 }
 </script>
 
