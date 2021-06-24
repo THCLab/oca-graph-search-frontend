@@ -10,6 +10,11 @@ const routes: RouteRecordRaw[] = [
     component: () => import('layouts/MainLayout.vue'),
     children: [{ path: '', component: () => import('../modules/search/page/Index.vue') }]
   },
+  {
+    path: '/data-sets',
+    component: () => import('layouts/MainLayout.vue'),
+    children: [{ path: '', component: () => import('../modules/data-sets/page/Index.vue') }]
+  },
 
   // Always leave this as last one,
   // but you can also remove it
