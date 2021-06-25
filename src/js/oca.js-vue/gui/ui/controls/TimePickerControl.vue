@@ -1,0 +1,72 @@
+<template>
+    <div>
+        <div class="row" v-if="labelPosition === 'left'">
+            <slot name="label"/>
+
+            <div class="col-md-8">
+                <div class="input-group">
+                    <ControlTimePicker v-model="control.value" :isValid="isValid" :readonly="control.readonly" :options="options" />
+
+                    <div class="input-group-append">
+                    <span class="input-group-text">
+                        <font-awesome-icon :icon="icon"></font-awesome-icon>
+                    </span>
+                    </div>
+                    <slot name="errors"/>
+                </div>
+            </div>
+
+            <slot name="information"/>
+        </div>
+        <div v-else class="form-group">
+            <label> {{control.label}} </label>
+            <span v-show="control.required"> *</span>
+            <div class="input-group">
+                <ControlTimePicker v-model="control.value" :readonly="control.readonly" :options="options" />
+
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <font-awesome-icon :icon="icon"></font-awesome-icon>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+    import {CONTROL_CONSTANTS} from "../../../../oca.js-vue/config/constants";
+    import {CONTROL_TYPES} from "../../../../oca.js-vue/config/control_constant";
+    import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+    import {Hooks} from '../../../../oca.js-vue/gui/components/hook_lists';
+    import ControlTimePicker from '../../../../oca.js-vue/third_party_controls/TimePickerControl';
+
+    export default {
+        name: "TimePickerControl",
+        components: {FontAwesomeIcon, ControlTimePicker},
+        props:['control', 'isValid', 'labelPosition'],
+        data: () => ({
+            icon: null,
+            options: {
+                zindex:1111,
+            }
+        }),
+        created() {
+            this.icon = CONTROL_TYPES[this.control.type].icon;
+
+            // setup data
+            this.options.timeFormat = this.control.timeFormat;
+
+            if (!_.isEmpty(this.control.defaultValue)) {
+                this.control.value = this.control.defaultValue;
+            }
+        },
+        mounted() {
+            Hooks.Control.afterInit.run(this.control);
+        }
+    }
+</script>
+
+<style scoped>
+
+</style>

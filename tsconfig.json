@@ -4,5 +4,6 @@
     "baseUrl": ".",
     "experimentalDecorators": true,
     "useDefineForClassFields": true
-  }
+  },
+  "exclude": ["src/js/**/*"]
 }
