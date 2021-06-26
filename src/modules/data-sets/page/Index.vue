@@ -44,6 +44,7 @@
             </q-td>
             <q-td auto-width>
               <q-btn
+                :disable="!forms[props.row.dri]"
                 size="md"
                 class="preview-btn"
                 color="secondary"
