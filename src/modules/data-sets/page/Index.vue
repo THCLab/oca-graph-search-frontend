@@ -4,6 +4,15 @@
       class="row justify-center"
       style="margin-top: 20px;"
     >
+      <q-card class="q-pa-md">
+        <import-schema @imported="fetchOCAList" />
+      </q-card>
+    </div>
+
+    <div
+      class="row justify-center"
+      style="margin-top: 20px;"
+    >
       <q-table
         title="Data Sets"
         :rows="rows"
@@ -61,12 +70,14 @@
 // @ts-nocheck
 import { defineComponent } from 'vue'
 import { Vue, Options } from 'vue-class-component'
+import ImportSchema from './ImportSchema.vue'
 import { OCAListEl } from '../entities/OCAListEl'
 import { renderForm, PreviewComponent } from '../../../js/oca.js-vue'
 import axios from 'axios'
 
 @Options({
   components: {
+    ImportSchema,
     PreviewComponent: (PreviewComponent as ReturnType<typeof defineComponent>)
   }
 })
@@ -99,6 +110,10 @@ export default class DataSetsIndex extends Vue {
   formsAlt = []
 
   async created () {
+    await this.fetchOCAList()
+  }
+
+  async fetchOCAList () {
     this.rows = ((
       await this.$api.get('/oca/list')
     ).data as { results: OCAListEl[] }).results
@@ -115,6 +130,7 @@ export default class DataSetsIndex extends Vue {
   }
 
   async generatePreview (dri: string) {
+    if (this.forms[dri]) { return }
     const branchDri = (await axios.get(`${this.ocaRepoUrl}/api/v3/schemas?q=${dri}`)).data[0].DRI
     const branch = (await axios.get(`${this.ocaRepoUrl}/api/v3/schemas/${branchDri}`)).data
     const langBranches = this.splitBranchPerLang(branch)

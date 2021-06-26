@@ -5,6 +5,7 @@ declare module '@vue/runtime-core' {
   interface ComponentCustomProperties {
     $axios: AxiosInstance;
     $api: AxiosInstance;
+    $ocaRepoApi: AxiosInstance;
   }
 }
 
@@ -16,6 +17,10 @@ declare module '@vue/runtime-core' {
 // for each client)
 // eslint-disable-next-line no-undef
 const api = axios.create({ baseURL: config.env.VUE_APP_API })
+const ocaRepoApi = axios.create({
+  // eslint-disable-next-line no-undef
+  baseURL: config.env.VUE_APP_OCA_REPO_URL
+})
 
 export default boot(({ app }) => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -27,6 +32,7 @@ export default boot(({ app }) => {
   app.config.globalProperties.$api = api
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
   //       so you can easily perform requests against your app's API
+  app.config.globalProperties.$ocaRepoApi = ocaRepoApi
 })
 
 export { api }
