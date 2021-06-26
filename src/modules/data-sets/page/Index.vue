@@ -36,10 +36,11 @@
             <q-td auto-width>
               <q-btn
                 size="md"
+                class="preview-btn"
                 color="secondary"
                 dense
                 @click="preview(props.row.dri)"
-                label="PREVIEW"
+                label="Preview"
               />
             </q-td>
           </q-tr>
@@ -151,3 +152,9 @@ export default class DataSetsIndex extends Vue {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.preview-btn {
+  padding: 5px 10px 5px 10px;
+}
+</style>
