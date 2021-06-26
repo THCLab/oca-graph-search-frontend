@@ -1,26 +1,23 @@
-# DDSH (ddsh)
+## Overview
 
-ddsh
+User interface that in conjunction with [backend](https://github.com/THCLab/oca-graph-search) unveils the real power of having harmonized data via OCA and further enrichments thanks to relationships between the schema and data.
 
-## Install the dependencies
-```bash
-yarn
+## Development
+
+* Run backend service (see [this repo](https://github.com/THCLab/oca-graph-search))
+* Install the dependencies
 ```
-
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+yarn install
+```
+* Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
 quasar dev
 ```
-
-### Lint the files
+* Lint the files
 ```bash
 yarn run lint
 ```
-
-### Build the app for production
+* Build the app for production
 ```bash
 quasar build
 ```
-
-### Customize the configuration
-See [Configuring quasar.conf.js](https://v2.quasar.dev/quasar-cli/quasar-conf-js).
