@@ -74,7 +74,6 @@ import { Vue, Options } from 'vue-class-component'
 import ImportSchema from './ImportSchema.vue'
 import { OCAListEl } from '../entities/OCAListEl'
 import { renderForm, PreviewComponent } from '../../../js/oca.js-vue'
-import axios from 'axios'
 
 @Options({
   components: {
@@ -104,7 +103,6 @@ export default class DataSetsIndex extends Vue {
 
   rows: OCAListEl[] = []
 
-  ocaRepoUrl = config.env.VUE_APP_OCA_REPO_URL
   form = {}
   alternatives = []
   forms = []
@@ -132,8 +130,8 @@ export default class DataSetsIndex extends Vue {
 
   async generatePreview (dri: string) {
     if (this.forms[dri]) { return }
-    const branchDri = (await axios.get(`${this.ocaRepoUrl}/api/v3/schemas?q=${dri}`)).data[0].DRI
-    const branch = (await axios.get(`${this.ocaRepoUrl}/api/v3/schemas/${branchDri}`)).data
+    const branchDri = (await this.$ocaRepoApi.get(`/api/v3/schemas?q=${dri}`)).data[0].DRI
+    const branch = (await this.$ocaRepoApi.get(`/api/v3/schemas/${branchDri}`)).data
     const langBranches = this.splitBranchPerLang(branch)
 
     this.formsAlt[dri] = await Promise.all(
