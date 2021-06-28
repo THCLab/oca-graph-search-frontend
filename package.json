@@ -1,8 +1,8 @@
 {
-  "name": "ddsh",
+  "name": "data-sharing-engine",
   "version": "0.0.1",
-  "description": "ddsh",
-  "productName": "DDSH",
+  "description": "dse",
+  "productName": "DSE",
   "author": "Marcin Olichwiruk <marcin@opensoftware.pl>",
   "private": true,
   "scripts": {

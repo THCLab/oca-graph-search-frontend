@@ -31,7 +31,7 @@
             shrink
             class="text-weight-bold"
           >
-            Data Sharing Hub Dashboard
+            Data Sharing Engine
           </q-toolbar-title>
         </q-btn>
 

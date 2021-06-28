@@ -142,9 +142,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: 'DDSH',
-        short_name: 'DDSH',
-        description: 'ddsh',
+        name: 'Data Sharing Engine',
+        short_name: 'DSE',
+        description: 'dse',
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
