@@ -123,7 +123,8 @@ export default class Criteria extends Vue {
           return {
             name: criterium.name,
             value: criterium.value,
-            op: criterium.operator
+            type: criterium.operator.type,
+            op: criterium.operator.value
           }
         }),
         schemas: this.criteriumSchemaRefs.filter(criterium => {

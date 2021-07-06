@@ -12,11 +12,12 @@
       dense
       outlined
       v-model="operator"
+      :option-label="o => o.value"
       :options="available.operators"
       style="width: 250px"
     />
     <q-select
-      :disable="!name"
+      :disable="!operator.type"
       dense
       outlined
       use-input
@@ -34,16 +35,20 @@
 <script lang="ts">
 import { Vue, Watch } from 'vue-property-decorator'
 
-type Value = string | number
+type Value = any
+type Operator = {
+  type: string,
+  value: string
+}
 type Available = {
   names: string[]
-  operators: string[]
+  operators: Operator[]
   values: Value[]
 }
 
 export default class CriteriumDatum extends Vue {
   name = ''
-  operator = ''
+  operator: Operator = { type: '', value: '' }
   value: string | number = ''
 
   available: Available = {
@@ -60,23 +65,38 @@ export default class CriteriumDatum extends Vue {
 
   @Watch('name')
   async onCriteriumNameChanged (name: string) {
-    this.operator = ''
+    this.available.operators = []
+    this.operator = { type: '', value: '' }
     this.value = ''
-    const result = (
-      await this.$api.get(`/datum/${name}`)
-    ).data as Available
-    this.available.operators = result.operators
+    const results = (
+      await this.$api.get(`/datum/${name}/operators`)
+    ).data as { type: string, operators: string[] }[]
+    results.forEach(result => {
+      this.available.operators.push(...result.operators.map(op => {
+        return { type: result.type, value: op }
+      }))
+    })
     this.operator = this.available.operators[0]
-    this.available.values = result.values.sort().map((v: Value) => (isNaN(v as any) ? v : Number(v)))
+  }
+
+  @Watch('operator')
+  async onCriteriumOperatorChanged (newOp: Operator, oldOp: Operator) {
+    if (!newOp.type || newOp.type === oldOp.type) { return }
+    this.value = ''
+    const results = (
+      await this.$api.get(`/datum/${this.name}/values/${newOp.type}`)
+    ).data as { values: any[] }
+    this.available.values = results.values.sort()
   }
 
   setCriteriumValue (val: string) {
-    if (isNaN(this.available.values[0] as any)) {
-      this.value = val
-    } else {
+    if (this.operator.type === 'Number') {
       if (isNaN(val as any)) { return }
       this.value = Number(val)
+      return
     }
+
+    this.value = val
   }
 }
 </script>
