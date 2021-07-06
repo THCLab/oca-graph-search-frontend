@@ -19,7 +19,7 @@
         >
           id: <b>{{ entity.id }}</b> <br>
           <span
-            v-for="(datum, i) in entity.data"
+            v-for="(datum, i) in entity.data.sort((a, b) => a.name.localeCompare(b.name))"
             :key="i"
           >
             {{ datum.name }}: <b>{{ datum.value }}</b>
