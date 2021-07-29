@@ -61,7 +61,6 @@
 import { Vue, Options } from 'vue-property-decorator'
 import { CriteriumDatum } from '../entities/CriteriumDatum'
 import { CriteriumSchema } from '../entities/CriteriumSchema'
-import { Entity } from '../entities/Entity'
 import CriteriumDatumComponent from './Criteria/CriteriumDatum.vue'
 import CriteriumSchemaComponent from './Criteria/CriteriumSchema.vue'
 
@@ -114,30 +113,28 @@ export default class Criteria extends Vue {
     this.criteriumList[index].deleted = true
   }
 
-  async search () {
-    const results: Entity[] = ((await this.$api.get('/q', {
-      params: {
-        data: this.criteriumDatumRefs.filter(criterium => {
-          return criterium.name && criterium.value
-        }).map(criterium => {
-          return {
-            name: criterium.name,
-            value: criterium.value,
-            type: criterium.operator.type,
-            op: criterium.operator.value
-          }
-        }),
-        schemas: this.criteriumSchemaRefs.filter(criterium => {
-          return criterium.name
-        }).map(criterium => {
-          return {
-            name: criterium.name
-          }
-        })
-      }
-    })).data as { results: Entity[] }).results || []
+  search () {
+    const params = {
+      data: this.criteriumDatumRefs.filter(criterium => {
+        return criterium.name && criterium.value
+      }).map(criterium => {
+        return {
+          name: criterium.name,
+          value: criterium.value,
+          type: criterium.operator.type,
+          op: criterium.operator.value
+        }
+      }),
+      schemas: this.criteriumSchemaRefs.filter(criterium => {
+        return criterium.name
+      }).map(criterium => {
+        return {
+          name: criterium.name
+        }
+      })
+    }
 
-    this.$emit('searchPerformed', results)
+    this.$emit('searchClicked', params)
   }
 }
 </script>

@@ -9,7 +9,7 @@
       class="results"
     >
       <span class="results__label">
-        Results ({{ entities.length }}):
+        Results ({{ count }}):
       </span>
       <div class="results__list">
         <div
@@ -38,6 +38,7 @@ import { Vue } from 'vue-class-component'
 import { Entity } from '../entities/Entity'
 
 class Props {
+  count = 0
   entities: Entity[] = []
 }
 
@@ -51,8 +52,11 @@ export default class Results extends Vue.with(Props) {
 
   &__el {
     padding: 5px 0 5px 5px;
-    border: 2px none $grey-4;
-    border-bottom-style: solid;
+
+    &:not(:last-child) {
+      border: 2px none $grey-4;
+      border-bottom-style: solid;
+    }
   }
 }
 </style>
